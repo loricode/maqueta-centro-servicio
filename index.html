@@ -359,6 +359,9 @@ pre.json{background:var(--surface-2);border-radius:6px;padding:10px;overflow-x:a
 .timeline li time{color:var(--muted);min-width:96px;font-family:var(--f-mono);font-size:12px}
 .visit{border-left:3px solid var(--accent);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:4px}
 .visit.done{border-left-color:var(--line)}
+.hv-hit{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 16px;font:inherit;color:inherit;cursor:pointer}
+.hv-hit:hover,.hv-hit:focus-visible{background:var(--accent-soft, rgba(0,0,0,.04))}
+.hv-hit.on{box-shadow:inset 3px 0 0 var(--accent)}
 .chart text{fill:var(--muted);font-size:11px;font-family:var(--f-mono)}
 .chart .ax{stroke:var(--line)}
 .chart .ln{stroke:var(--accent);fill:none;stroke-width:2}
@@ -1847,6 +1850,26 @@ function chartMedidor(ords, unidad) {
     <text x="${pl}" y="${pt - 2}" text-anchor="start">${unidad}</text>
   </svg></div>`;
 }
+// Buscador del expediente: encuentra equipos por identificador, marca/modelo, dueño, documento, celular o número de orden.
+function histBuscar(q) {
+  const n = s => norm(sinTilde(s)), k = n(q);
+  if (k.length < 2) return null;
+  return deEmpresa(DB.equipos).filter(e => {
+    const c = cliDe(e.cliente);
+    const os = DB.ordenes.filter(o => o.equipo === e.id).map(o => o.numero).join(' ');
+    return [e.ident, e.attrs.Marca + e.attrs.Modelo, c.nombre, c.doc, c.cel].some(v => n(v).includes(k)) || os.split(' ').some(x => x && x === k);
+  });
+}
+function histResHTML() {
+  const q = String(S.histQ || '').trim(), R = histBuscar(q);
+  if (!q) return '';
+  if (!R) return '<p class="muted small" style="margin:4px 0 0">Escribe al menos 2 caracteres.</p>';
+  if (!R.length) return `<div class="note warn"><b>No encontramos "${esc(q)}".</b> Prueba con otro dato.</div>`;
+  return `<section class="card stack" style="gap:0;padding:6px 0"><div class="small muted" style="padding:4px 16px 6px">${R.length} resultado${R.length === 1 ? '' : 's'}</div>
+    ${R.slice(0, 10).map(e => { const c = cliDe(e.cliente);
+      return `<button class="hv-hit ${e.id === S.histEq ? 'on' : ''}" data-a="verEquipo" data-id="${e.id}">${identChip(e)}<span><b>${hl(e.attrs.Marca + ' ' + e.attrs.Modelo, q)}</b> <span class="chip">${esc(tipoDe(e).nombre)}</span><br><span class="small muted">${hl(c.nombre, q)} · Doc. ${hl(c.doc, q)} · ${hl(c.cel, q)}</span></span></button>`; }).join('')}
+    ${R.length > 10 ? '<div class="small muted" style="padding:6px 16px">Hay más resultados; escribe un dato más preciso.</div>' : ''}</section>`;
+}
 function vHistorial() {
   const eqs = deEmpresa(DB.equipos);
   if (!byId(eqs, S.histEq)) S.histEq = eqs[0] && eqs[0].id;
@@ -1859,8 +1882,9 @@ function vHistorial() {
     const planes = deEmpresa(DB.planes).filter(p => p.tipo === eq.tipo).map(p => ({ p, r:proxMant(eq, p) })).filter(x => !x.r.sin);
     const f = S.f;
     body = `
-    <div class="row"><select id="hv-eq" data-ch="histEq" style="max-width:360px">${eqs.map(e => `<option value="${e.id}" ${e.id===S.histEq?'selected':''}>${esc(identTxt(e))} · ${esc(e.attrs.Marca)} ${esc(e.attrs.Modelo)}</option>`).join('')}</select>
+    <div class="srch"><input id="hv-q" type="search" autocomplete="off" enterkeyhint="search" aria-label="Buscar ${esc(L('equipo').toLowerCase())}" placeholder="Busca por ${esc(tipoDe(eq).ident.toLowerCase())}, marca, modelo, dueño, documento, celular o n.º de orden" value="${esc(S.histQ || '')}" data-in="histQ" data-live="1">
       <button class="btn" data-a="verHv">Exportar expediente en PDF</button></div>
+    <div id="hv-res">${histResHTML()}</div>
     <div class="grid2">
       <div class="stack" style="gap:16px">
         <section class="card stack"><div class="row">${identChip(eq)}<h3>${eqNombre(eq)}</h3><span class="chip">${esc(t.nombre)}</span></div>
@@ -2183,6 +2207,7 @@ document.addEventListener('input', e => {
   setPath(p, el.value);
   if (el.dataset.live) {
     if (p === 'recep.q' || p.startsWith('recep.fl.')) { recRefrescarBusq(); return; }
+    if (p === 'histQ') { const c = document.getElementById('hv-res'); if (c) c.innerHTML = histResHTML(); return; }
     if (p === 'repQ') document.getElementById('rep-tbl').innerHTML = tablaInventario(deEmpresa(DB.productos).filter(x => !S.repQ || norm(x.nombre + x.cod).includes(norm(S.repQ))));
     if (p === 'bitQ') { const q = norm(S.bitQ); document.getElementById('bit-tbl').innerHTML = tablaBit(deEmpresa(DB.bitacora).filter(b => !q || norm(b.ent + b.acc + b.u).includes(q))); }
     if (p.startsWith('f.tm_')) { aplicarTema(temaBorrador()); el.nextElementSibling && (el.nextElementSibling.textContent = el.value.toUpperCase()); return; }
@@ -2426,7 +2451,7 @@ const A = {
   copiarCsv: () => { try { navigator.clipboard.writeText(S.csv).then(() => toast('CSV copiado.', 'good'), () => toast('No se pudo copiar: selecciona el texto y cópialo.')); } catch (e) { toast('No se pudo copiar: selecciona el texto y cópialo.'); } },
   // Expediente
   histTab: d => { S.histTab = d.t; render(); },
-  verEquipo: d => { S.histEq = d.id; S.histTab = 'equipo'; render(); },
+  verEquipo: d => { S.histEq = d.id; S.histTab = 'equipo'; S.histQ = ''; S.f = {}; render(); },
   verHv: () => { S.modal = { t:'hv', id:S.histEq }; render(); },
   cambiarDueno: () => {
     if (!puede(['asesor','jefe'], 'Cambiar el dueño')) return;
