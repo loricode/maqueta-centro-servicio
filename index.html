@@ -11,7 +11,8 @@
 /* Layout: lenguaje Material — AppBar de color, Drawer lateral (barra inferior desplazable en celular), Paper con elevación.
    Identidad propia: degradado de la marca solo en el stepper y el logo; identificadores (placa, serie, IMEI) en chip turquesa y números de OS en monoespaciada. */
 :root{
-  --bg:#F4F6FA; --surface:#FFFFFF; --surface-2:#F2F4F8; --ink:#1D2129; --muted:#5F6672; --line:#E1E4EA;
+  --b-tint:#E6EFF1; --b-solid:#145566; --b-solid-h:#0E4250;
+  --bg:var(--b-tint); --surface:#FFFFFF; --surface-2:#F2F4F8; --ink:#1D2129; --muted:#5F6672; --line:#E1E4EA;
   --accent:#1F5BC4; --accent-soft:#E7EEFB; --accent-ink:#FFFFFF;
   /* Marca por empresa: valores por defecto; JS los reemplaza con la configuración de Apariencia */
   --b-appbar:#07262E; --b-appbar-ink:#FFFFFF; --b-appbar-ctl:rgba(255,255,255,.12); --b-appbar-line:rgba(255,255,255,.4);
@@ -370,6 +371,78 @@ pre.json{background:var(--surface-2);border-radius:6px;padding:10px;overflow-x:a
 .phase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 @media (max-width:900px){.phase{grid-template-columns:minmax(0,1fr)}}
 .phase h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:500}
+
+/* ================== Estilo v2 "Vivo" ==================
+   Color fuerte en el marco (menú, cabeceras, botones, tarjetas de estado) y calma en las zonas de datos.
+   Todo sale de los colores de la empresa (Apariencia), así que cada cliente conserva su marca. */
+/* Menú lateral del color de la barra superior; la opción activa lleva el degradado de la marca */
+.nav{background:var(--appbar);border-right:0;color:var(--appbar-ink);box-shadow:inset -1px 0 0 rgba(255,255,255,.06)}
+.nav .grp,.nav .nav-foot{color:color-mix(in srgb,var(--appbar-ink) 58%,transparent)}
+.nav .nav-foot a{display:inline;padding:0;margin:0;border-radius:0;color:inherit;font-weight:400;text-decoration:underline}
+.nav .nav-foot a:hover{background:none;color:var(--appbar-ink)}
+.nav a,.nav .grp-btn{color:var(--appbar-ink)}
+.nav a svg,.nav .grp-btn svg{stroke:color-mix(in srgb,var(--appbar-ink) 72%,transparent)}
+.nav .grp-btn .chev{stroke:var(--appbar-ink)}
+.nav a:hover,.nav .grp-btn:hover{background:var(--appbar-ctl)}
+.nav a.on{background:var(--grad);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.28)}
+.nav a.on svg{stroke:#fff}
+@media (max-width:760px){.nav{border-top:0}}
+
+/* Botones: el principal es sólido; el grande usa el degradado de la marca */
+.btn{border-radius:10px}
+.btn.pri{background:var(--b-solid);border-color:transparent;color:#fff;box-shadow:0 2px 6px color-mix(in srgb,var(--b-solid) 45%,transparent)}
+.btn.pri:hover{background:var(--b-solid-h);box-shadow:0 4px 12px color-mix(in srgb,var(--b-solid) 50%,transparent)}
+.btn.pri.big{background:var(--grad);border:0;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.btn.pri.big:hover{filter:brightness(1.07)}
+
+/* Cabecera de cada pantalla: banda con el degradado de la barra */
+.page-head{background:var(--b-step);color:#fff;border-radius:18px;padding:22px 26px;box-shadow:var(--e4);position:relative;overflow:hidden;isolation:isolate;align-items:center}
+.page-head::after{content:"";position:absolute;z-index:-1;right:-70px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--grad);opacity:.38;filter:blur(2px)}
+.page-head::before{content:"";position:absolute;z-index:-1;right:150px;bottom:-110px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07)}
+.page-head h1{color:#fff}
+.page-head p,.page-head .muted,.page-head .field > span{color:rgba(255,255,255,.82)}
+.page-head a:not(.btn){color:#fff}
+.page-head .btn:not(.pri){color:#fff;border-color:rgba(255,255,255,.55)}
+.page-head .btn:not(.pri):hover{background:rgba(255,255,255,.14)}
+.page-head .hu{color:#fff;border-color:rgba(255,255,255,.6)}
+.page-head input,.page-head select,.page-head textarea{color:var(--ink);border-color:transparent}
+@media (max-width:760px){.page-head{padding:18px;border-radius:14px}}
+
+/* Tarjetas: más redondeadas, sombra suave y un acento de color en el título */
+.card{border-radius:16px;box-shadow:0 1px 2px rgba(10,40,50,.06),0 6px 18px rgba(10,40,50,.07)}
+.card > h3:first-child,.card > .spread:first-child > h3{display:flex;align-items:center;gap:10px}
+.card > h3:first-child::before,.card > .spread:first-child > h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--grad);flex:none}
+.tbl-wrap{border-radius:14px}
+
+/* Tarjetas de estado del inicio: color pleno por estado */
+.pipe button{border:0;border-top:4px solid var(--sc);background:color-mix(in srgb,var(--sc) 12%,var(--surface));box-shadow:var(--e1);border-radius:12px}
+.pipe button:hover{background:color-mix(in srgb,var(--sc) 20%,var(--surface));transform:translateY(-2px);box-shadow:var(--e4)}
+.pipe button{transition:transform .15s,box-shadow .15s,background .15s}
+.pipe .pi{background:var(--sc);border-radius:50%;box-shadow:0 3px 8px color-mix(in srgb,var(--sc) 45%,transparent)}
+.pipe .pi svg{stroke:var(--surface)}
+.pipe .pl{color:var(--ink);font-weight:500}
+
+/* Chips de estado más saturados */
+.chip.est{background:color-mix(in srgb,var(--sc) 20%,var(--surface));font-weight:700}
+
+/* Tablas: encabezado con tinte de la marca */
+th{background:var(--btn-soft);color:var(--tab-ink);font-weight:700;text-transform:uppercase;font-size:11.5px;letter-spacing:.06em}
+tr.click:hover td{background:var(--btn-soft)}
+
+/* Pestañas y filtros */
+.tabs button.on{background:var(--btn-soft)}
+
+/* Tablero de técnicos: columnas con tinte y franja superior */
+.col{background:color-mix(in srgb,var(--b-tab) 9%,var(--surface));border-top:4px solid var(--b-tab);border-radius:14px}
+.task{border-radius:10px}
+
+/* Avisos con franja lateral de color */
+.note{border-left:4px solid var(--line)}
+.note.warn{border-left-color:var(--signal)} .note.bad{border-left-color:var(--bad)} .note.good{border-left-color:var(--good)}
+
+/* Ingreso: fondo con el degradado de la marca */
+.login{background:radial-gradient(circle at 85% 8%,color-mix(in srgb,var(--b-plate) 22%,transparent) 0 160px,transparent 260px),
+  linear-gradient(180deg,transparent 0 42%,var(--bg) 42% 100%),var(--b-step)}
 </style>
 </head>
 <body>
@@ -864,6 +937,9 @@ function aplicarTema(t) {
   set('--b-bg', hsl(h, sp, 88)); set('--b-hover', hsl(h, sp, 81)); set('--b-line', hsl(h, Math.min(s, 35), 74));
   set('--b-ink', hsl(h, Math.min(s, 80), 16)); set('--b-out', hsl(h, Math.min(s, 70), 26)); set('--b-soft', hsl(h, Math.min(s, 40), 95));
   set('--b-line-d', hsl(h, Math.min(s, 25), 45)); set('--b-out-d', hsl(h, sp, 78)); set('--b-soft-d', hsl(h, Math.min(s, 30), 17));
+  // Estilo v2: botón sólido y fondo con tinte del color de la empresa.
+  set('--b-solid', hsl(h, Math.min(s, 70), 30)); set('--b-solid-h', hsl(h, Math.min(s, 70), 23));
+  set('--b-tint', hsl(ph, Math.min(ps, 30), 93));
 }
 const temaBorrador = () => Object.assign({}, tema(), ...TEMA_CAMPOS.concat('iniciales').filter(k => S.f['tm_' + k] != null).map(k => ({ [k]: S.f['tm_' + k] })));
 
@@ -929,7 +1005,7 @@ function render() {
         ${menuCuenta()}
       </div>
     </header>
-    <nav class="nav">${nav}<div class="nav-foot">Maqueta con datos de ejemplo. Pasos 1 a 10 del plan.</div></nav>
+    <nav class="nav">${nav}<div class="nav-foot">Maqueta con datos de ejemplo. Pasos 1 a 10 del plan. Estilo v2 · <a href="../v1/">ver v1</a></div></nav>
     <main><div class="wrap">${vista()}</div></main>
   </div>${S.modal ? vModal() : ''}`;
   ['main', '.nav'].forEach((q, i) => { const el = app.querySelector(q); if (el) el.scrollTop = sc[i]; });
