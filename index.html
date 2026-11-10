@@ -453,6 +453,135 @@ tr.click:hover td{background:var(--btn-soft)}
 tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--b-tab) 6%,var(--surface))}
 tr.click:hover td{background:color-mix(in srgb,var(--b-tab) 14%,var(--surface))}
 td{border-bottom-color:color-mix(in srgb,var(--b-tab) 10%,var(--line))}
+
+/* ===== Búsqueda por VIN ===== */
+.vin-hero{display:grid;gap:14px;background:radial-gradient(circle at 100% 0,color-mix(in srgb,var(--b-plate) 16%,transparent) 0 120px,transparent 300px),var(--surface)}
+.vin-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:8px 8px 8px 16px}
+.vin-box:focus-within{border-color:var(--b-plate);box-shadow:0 0 0 3px color-mix(in srgb,var(--b-plate) 25%,transparent)}
+.vin-box input{flex:1;min-width:0;flex-basis:220px;border:0;background:none;box-shadow:none;font-size:clamp(17px,2.4vw,22px);letter-spacing:.14em;text-transform:uppercase;padding:6px 0;outline:none}
+.vin-box input:focus{box-shadow:none;outline:none}
+.vin-cnt{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);padding:3px 9px;border-radius:12px;background:var(--surface)}
+.vin-cnt.ok{color:var(--good);background:var(--good-soft)}
+@media (max-width:520px){.vin-box input{letter-spacing:.05em;font-size:17px;flex-basis:100%}}
+.vin-ej{gap:8px} .vin-ej .mono{font-size:12px}
+.vin-veh{display:grid;gap:16px}
+.vin-veh-h{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.vin-veh-h h2{margin:2px 0 6px;font-size:24px}
+.vin-car{width:76px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--b-step);flex:none}
+.vin-car svg{width:52px;height:28px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.vin-stats{display:flex;gap:10px;flex-wrap:wrap}
+.vin-stat{display:grid;justify-items:center;padding:8px 16px;border-radius:12px;background:var(--surface-2);min-width:96px;text-align:center;border:1px solid transparent;cursor:pointer;font:inherit;color:inherit;transition:transform .15s,box-shadow .15s,border-color .15s,background .15s}
+.vin-stat:hover{transform:translateY(-2px);border-color:var(--b-line);background:var(--btn-soft);box-shadow:0 6px 14px rgba(0,0,0,.1)}
+.vin-stat:focus-visible{outline:2px solid var(--b-plate);outline-offset:2px}
+.vin-stat:hover span{color:var(--tab-ink)}
+.vin-stats b{font-size:24px;line-height:1.2} .vin-stats span{font-size:12px;color:var(--muted)}
+.vin-segs{display:grid;grid-template-columns:3fr 5fr 1.3fr 1.3fr 1.3fr 6fr;gap:6px}
+.vin-seg{--v:#5D7385;display:grid;gap:2px;padding:8px 8px 9px;border-radius:10px;background:color-mix(in srgb,var(--v) 11%,var(--surface));border-top:4px solid var(--v);min-width:0}
+.vin-seg .mono{font-size:clamp(14px,1.8vw,19px);letter-spacing:.12em;font-weight:700;color:var(--ink)}
+.vin-seg b{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--v)}
+.vin-seg small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vin-seg.v0{--v:#2F80ED} .vin-seg.v1{--v:#8E5CD9} .vin-seg.v2{--v:#8A94A3} .vin-seg.v3{--v:#F57C00} .vin-seg.v4{--v:#00A0B0} .vin-seg.v5{--v:#3FA34D}
+@media (max-width:760px){.vin-segs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ===== Origen del repuesto: original, genérico o universal ===== */
+.org{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.org-original{background:color-mix(in srgb,#1F5BC4 14%,var(--surface));color:#1F5BC4}
+.org-generico{background:color-mix(in srgb,#00897B 14%,var(--surface));color:#00796B}
+.org-universal{background:var(--surface-2);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+:root[data-theme="dark"] .org-original{color:#8AB4F8} :root[data-theme="dark"] .org-generico{color:#4DD0C1}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .org-original{color:#8AB4F8}:root:not([data-theme="light"]) .org-generico{color:#4DD0C1}}
+.inv-ref{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px} .inv-ref .org{margin-left:0}
+.pz-og{display:grid;gap:6px}
+.pz-og-t{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap} .pz-og-t .org{margin-left:0;font-size:12px;padding:2px 10px} .pz-og-t small{font-size:12px;color:var(--muted)}
+.pz-precio{display:grid;justify-items:end;gap:1px}
+.ahorro{font-size:11.5px;font-weight:700;color:var(--good)}
+
+/* Modal de repuestos del vehículo */
+.doc.wide{max-width:960px}
+.rep-filt{gap:6px} .rep-filt .chip.filt{height:30px;font-size:12.5px} .rep-filt .num{opacity:.75;margin-left:2px}
+.rep-list{display:grid;gap:12px}
+.rep-pz{display:grid;gap:8px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--c) 6%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 22%,var(--line))}
+.rep-pz-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap} .rep-pz-h b{font-size:15px} .rep-pz-h .btn{margin-left:auto}
+.rep-pz .pz-prod{background:var(--surface)}
+
+/* ===== Mapa de piezas ===== */
+.pz-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}
+@media (min-width:1500px){.pz-grid{grid-template-columns:minmax(0,2fr) minmax(320px,1fr)}}
+.pz-stage{display:grid;gap:12px;background:radial-gradient(ellipse 70% 45% at 50% 62%,color-mix(in srgb,var(--b-plate) 13%,transparent),transparent 72%),var(--surface)}
+.pz-sis{gap:6px} .pz-sis .chip.filt{height:30px;padding:0 12px;font-size:12.5px}
+.pz-sis .chip i{width:9px;height:9px}
+.pz-canvas{margin:0 -6px}
+.pz-swipe{display:none;font-size:12px;color:var(--muted);text-align:center;margin-top:-6px}
+@media (max-width:760px){.pz-canvas{overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch}.pz-svg{min-width:720px}.pz-swipe{display:block}}
+.pz-svg{width:100%;height:auto;display:block;user-select:none;-webkit-user-select:none}
+.pz-shadow{fill:color-mix(in srgb,var(--ink) 14%,transparent)}
+.pz-orient{font:600 13px var(--f-body);fill:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.pz-body{fill:color-mix(in srgb,var(--ink) 4%,var(--surface));stroke:color-mix(in srgb,var(--ink) 48%,transparent);stroke-width:2.2;stroke-linejoin:round}
+.pz-glass{fill:color-mix(in srgb,var(--accent) 13%,var(--surface));stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-width:1.5}
+.pz-line{fill:none;stroke:color-mix(in srgb,var(--ink) 22%,transparent);stroke-width:1.5;stroke-linecap:round}
+.pz-deco{fill:none;stroke:color-mix(in srgb,var(--ink) 16%,transparent);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.pz-rim{fill:color-mix(in srgb,var(--surface) 88%,transparent);stroke:#8A94A3;stroke-width:2}
+.pz-part,.pz-pin{cursor:pointer;transition:opacity .2s}
+.pz-part .s{fill:color-mix(in srgb,var(--c) 26%,transparent);stroke:var(--c);stroke-width:2;transition:fill .2s,stroke-width .2s}
+.pz-part .s.ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pz-part .s.w{stroke-width:4} .pz-part .s.w2{stroke-width:10}
+.pz-part .s.tire{fill:#2A2E35;stroke:#2A2E35;stroke-width:3}
+.pz-part.pzh .s:not(.ln):not(.tire),.pz-part.sel .s:not(.ln):not(.tire){fill:color-mix(in srgb,var(--c) 62%,transparent)}
+.pz-part.pzh .s.ln,.pz-part.sel .s.ln{stroke-width:3.5} .pz-part.pzh .s.w,.pz-part.sel .s.w{stroke-width:6}
+.pz-part.pzh .s.tire,.pz-part.sel .s.tire{stroke:var(--c);stroke-width:6}
+.pz-part.sel{filter:drop-shadow(0 0 7px var(--c))}
+.pz-lead{stroke:var(--c);stroke-width:1.4;stroke-dasharray:3 4;opacity:.75}
+.pz-dot{fill:var(--c);stroke:var(--surface);stroke-width:1.5}
+.pz-bub{fill:var(--c);stroke:var(--surface);stroke-width:3}
+.pz-pin text{fill:var(--ci);font:700 15px var(--f-body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pz-bub,.pz-pin text{transform-box:fill-box;transform-origin:center;transition:transform .15s}
+.pz-pin.pzh .pz-bub,.pz-pin.pzh text,.pz-pin.sel .pz-bub,.pz-pin.sel text{transform:scale(1.22)}
+.pz-pin.pzh .pz-lead,.pz-pin.sel .pz-lead{opacity:1;stroke-width:2;stroke-dasharray:none}
+.pz-ring{fill:none;stroke:var(--c);stroke-width:2.5;transform-box:fill-box;transform-origin:center;animation:pzPulso 1.6s ease-out infinite}
+.pz-halo{fill:color-mix(in srgb,var(--c) 18%,transparent);stroke:var(--c);stroke-width:2;stroke-dasharray:5 4;pointer-events:none;transform-box:fill-box;transform-origin:center;animation:pzHalo 1.8s ease-in-out infinite}
+@keyframes pzHalo{0%,100%{transform:scale(.85)}50%{transform:scale(1.12)}}
+@keyframes pzPulso{from{transform:scale(1);opacity:.9}to{transform:scale(2.3);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pz-ring{animation:none;opacity:.6;transform:scale(1.5)}.pz-halo{animation:none}}
+/* Una pieza elegida apaga el resto; un filtro por sistema o la falta de repuesto la atenúan */
+.pz-svg.has-sel .pz-part:not(.sel):not(.pzh){opacity:.35}
+.pz-svg.has-sel .pz-pin:not(.sel):not(.pzh){opacity:.5}
+.pz-part.off{opacity:.3} .pz-part.off .s{fill:none;stroke-dasharray:4 3}
+.pz-pin.off .pz-bub{fill:var(--surface);stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-width:1.5}
+.pz-pin.off text{fill:var(--muted)} .pz-pin.off .pz-lead,.pz-pin.off .pz-dot{opacity:.3}
+.pz-part.fx,.pz-pin.fx{opacity:.1 !important}
+/* Detalle de la pieza */
+.pz-det{border-radius:14px;padding:14px 16px;background:color-mix(in srgb,var(--c,var(--b-plate)) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--c,var(--b-plate)) 30%,var(--line));display:grid;gap:12px;animation:pzEntra .2s ease-out}
+@keyframes pzEntra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pz-det-h{display:flex;align-items:center;gap:12px}
+.pz-det-h h3{margin:0 0 4px;font-size:19px}
+.pz-tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:var(--c);color:var(--ci)}
+.pz-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pz-facts > div{background:var(--surface);border-radius:10px;padding:10px 12px}
+.pz-facts p{margin:4px 0 0;font-size:14px;line-height:1.45}
+@media (max-width:640px){.pz-facts{grid-template-columns:minmax(0,1fr)}}
+.pz-prods{display:grid;gap:6px}
+.pz-prod{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;background:var(--surface);border-radius:10px;padding:8px 12px}
+.pz-prod .mono{font-size:12.5px;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);padding:3px 8px;border-radius:6px}
+.pz-prod small{display:block;font-size:12px;color:var(--muted)}
+@media (max-width:640px){.pz-prod{grid-template-columns:auto minmax(0,1fr)}.pz-prod > .pz-precio,.pz-prod > .chip{grid-column:2;justify-self:start}.pz-precio{justify-items:start}}
+.pz-hint{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;animation:none}
+.pz-hint svg{width:26px;height:26px;flex:none;fill:none;stroke:var(--b-plate);stroke-width:1.8;stroke-linejoin:round}
+.pz-num{width:26px;height:26px;border-radius:50%;background:var(--c);color:var(--ci);display:grid;place-items:center;font-weight:700;font-size:12.5px;flex:none}
+.pz-num.lg{width:44px;height:44px;font-size:19px;box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent)}
+/* Lista lateral */
+.pz-side{display:grid;gap:10px}
+.pz-list{display:grid;gap:14px 20px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));align-items:start}
+@media (min-width:1500px){.pz-list{grid-template-columns:minmax(0,1fr);max-height:min(72vh,820px);overflow-y:auto;margin:0 -6px;padding:0 6px;scrollbar-width:thin}}
+.pz-grp{display:grid;gap:2px}
+.pz-grp-t{display:flex;align-items:center;gap:8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--muted);padding:2px 4px 4px}
+.pz-grp-t i{width:9px;height:9px;border-radius:50%}
+.pz-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 8px;border-radius:10px;cursor:pointer;transition:background .15s;outline:none}
+.pz-item:hover,.pz-item.pzh,.pz-item:focus-visible{background:color-mix(in srgb,var(--c) 11%,var(--surface))}
+.pz-item.sel{background:color-mix(in srgb,var(--c) 18%,var(--surface));box-shadow:inset 3px 0 0 var(--c)}
+.pz-item-t{min-width:0} .pz-item-t b{display:block;font-size:14px;font-weight:500}
+.pz-item-t small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pz-item.off .pz-num{background:var(--surface-2);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.pz-item.off .pz-item-t b{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -530,12 +659,44 @@ const DB = {
     { id:'SV9', empresa:'E2', cod:'P-003', nombre:'Mantenimiento interno y pasta térmica', tipos:['T2'], horas:1, precio:50000, activo:true, esp:'Portátiles' }
   ],
   productos: [
-    { id:'P1', empresa:'E1', cod:'FA-210', nombre:'Filtro de aceite FA-210', precio:28000, stock:6, reservado:0 },
-    { id:'P2', empresa:'E1', cod:'AC-1040', nombre:'Aceite 10W-40 (litro)', precio:32000, stock:20, reservado:0 },
-    { id:'P3', empresa:'E1', cod:'PF-88', nombre:'Pastillas de freno delanteras PF-88', precio:145000, stock:0, reservado:0 },
-    { id:'P4', empresa:'E1', cod:'BJ-NGK', nombre:'Bujía NGK (unidad)', precio:22000, stock:12, reservado:0 },
-    { id:'P5', empresa:'E1', cod:'LF-DOT4', nombre:'Líquido de frenos DOT 4', precio:25000, stock:4, reservado:1 },
-    { id:'P6', empresa:'E1', cod:'FAI-77', nombre:'Filtro de aire FAI-77', precio:38000, stock:3, reservado:0 },
+    // Repuestos de vehículo. pieza: dónde va en el mapa (PIEZAS). origen: original (del fabricante del vehículo),
+    // generico (otra marca) o universal. oem: número de parte original que ES el producto; equiv: números originales
+    // a los que equivale un genérico (hereda su compatibilidad). compat: '*' o lista directa de { marca, modelo?, desde?, hasta? }.
+    { id:'P1', empresa:'E1', cod:'FA-210', nombre:'Filtro de aceite FA-210', precio:28000, stock:6, reservado:0, pieza:'filtro-aceite', origen:'generico', marcaRep:'Mann-Filter', equiv:['GM 96879797'] },
+    { id:'P30', empresa:'E1', cod:'GM-96879797', nombre:'Filtro de aceite original GM', precio:46000, stock:3, reservado:0, pieza:'filtro-aceite', origen:'original', marcaRep:'GM', oem:'GM 96879797' },
+    { id:'P2', empresa:'E1', cod:'AC-1040', nombre:'Aceite 10W-40 (litro)', precio:32000, stock:20, reservado:0, pieza:'aceite', origen:'universal', marcaRep:'Mobil', compat:'*' },
+    { id:'P3', empresa:'E1', cod:'PF-88', nombre:'Pastillas de freno delanteras PF-88', precio:145000, stock:0, reservado:0, pieza:'pastillas-del', origen:'generico', marcaRep:'Bosch', equiv:['GM 96800256'] },
+    { id:'P31', empresa:'E1', cod:'GM-96800256', nombre:'Pastillas de freno delanteras originales GM', precio:238000, stock:2, reservado:0, pieza:'pastillas-del', origen:'original', marcaRep:'GM', oem:'GM 96800256' },
+    { id:'P32', empresa:'E1', cod:'BR-P10058', nombre:'Pastillas de freno delanteras Brembo', precio:172000, stock:4, reservado:0, pieza:'pastillas-del', origen:'generico', marcaRep:'Brembo', equiv:['GM 96800256'] },
+    { id:'P4', empresa:'E1', cod:'BJ-NGK', nombre:'Bujía NGK (unidad)', precio:22000, stock:12, reservado:0, pieza:'bujias', origen:'generico', marcaRep:'NGK', compat:[{ marca:'Chevrolet' }, { marca:'Kia' }, { marca:'Nissan' }, { marca:'Renault' }] },
+    { id:'P5', empresa:'E1', cod:'LF-DOT4', nombre:'Líquido de frenos DOT 4', precio:25000, stock:4, reservado:1, pieza:'liquido-frenos', origen:'universal', marcaRep:'Bosch', compat:'*' },
+    { id:'P6', empresa:'E1', cod:'FAI-77', nombre:'Filtro de aire FAI-77', precio:38000, stock:3, reservado:0, pieza:'filtro-aire', origen:'generico', marcaRep:'Mann-Filter', equiv:['GM 95961346'] },
+    { id:'P33', empresa:'E1', cod:'GM-95961346', nombre:'Filtro de aire original GM', precio:61000, stock:1, reservado:0, pieza:'filtro-aire', origen:'original', marcaRep:'GM', oem:'GM 95961346' },
+    { id:'P9', empresa:'E1', cod:'FA-330', nombre:'Filtro de aceite FA-330', precio:34000, stock:5, reservado:0, pieza:'filtro-aceite', origen:'generico', marcaRep:'Mann-Filter', equiv:['MZ PE01-14-302'] },
+    { id:'P34', empresa:'E1', cod:'MZ-PE0114302', nombre:'Filtro de aceite original Mazda', precio:52000, stock:2, reservado:0, pieza:'filtro-aceite', origen:'original', marcaRep:'Mazda', oem:'MZ PE01-14-302' },
+    { id:'P10', empresa:'E1', cod:'FA-415', nombre:'Filtro de aceite FA-415', precio:31000, stock:8, reservado:0, pieza:'filtro-aceite', origen:'generico', marcaRep:'Bosch', equiv:['RN 152089599R'] },
+    { id:'P35', empresa:'E1', cod:'KI-2630035505', nombre:'Filtro de aceite original Kia', precio:44000, stock:2, reservado:0, pieza:'filtro-aceite', origen:'original', marcaRep:'Kia', oem:'KI 26300-35505' },
+    { id:'P27', empresa:'E1', cod:'TY-9091510003', nombre:'Filtro de aceite original Toyota', precio:49000, stock:4, reservado:0, pieza:'filtro-aceite', origen:'original', marcaRep:'Toyota', oem:'TY 90915-10003' },
+    { id:'P11', empresa:'E1', cod:'BAT-42', nombre:'Batería 42 Ah', precio:385000, stock:3, reservado:0, pieza:'bateria', origen:'generico', marcaRep:'Bosch', compat:[{ marca:'Chevrolet' }, { marca:'Kia' }, { marca:'Nissan' }, { marca:'Renault' }] },
+    { id:'P12', empresa:'E1', cod:'BAT-70', nombre:'Batería 70 Ah', precio:540000, stock:2, reservado:0, pieza:'bateria', origen:'generico', marcaRep:'Bosch', compat:[{ marca:'Toyota' }, { marca:'Mazda' }] },
+    { id:'P13', empresa:'E1', cod:'AM-SPK-D', nombre:'Amortiguador delantero Spark GT', precio:210000, stock:4, reservado:0, pieza:'amort-del', origen:'generico', marcaRep:'Monroe', equiv:['GM 94580124'] },
+    { id:'P36', empresa:'E1', cod:'GM-94580124', nombre:'Amortiguador delantero original GM', precio:340000, stock:0, reservado:0, pieza:'amort-del', origen:'original', marcaRep:'GM', oem:'GM 94580124' },
+    { id:'P14', empresa:'E1', cod:'AM-DST-D', nombre:'Amortiguador delantero Duster', precio:265000, stock:2, reservado:0, pieza:'amort-del', origen:'generico', marcaRep:'Monroe', equiv:['RN 543026R'] },
+    { id:'P24', empresa:'E1', cod:'AM-SPK-T', nombre:'Amortiguador trasero Spark GT', precio:180000, stock:0, reservado:0, pieza:'amort-tras', origen:'generico', marcaRep:'Monroe', equiv:['GM 95227541'] },
+    { id:'P15', empresa:'E1', cod:'DF-260', nombre:'Disco de freno delantero 260 mm', precio:168000, stock:4, reservado:0, pieza:'disco-del', origen:'generico', marcaRep:'Fremax', equiv:['GM 96535094'] },
+    { id:'P37', empresa:'E1', cod:'GM-96535094', nombre:'Disco de freno delantero original GM', precio:265000, stock:2, reservado:0, pieza:'disco-del', origen:'original', marcaRep:'GM', oem:'GM 96535094' },
+    { id:'P16', empresa:'E1', cod:'PF-120', nombre:'Pastillas de freno delanteras PF-120', precio:175000, stock:3, reservado:0, pieza:'pastillas-del', origen:'generico', marcaRep:'Bosch', equiv:['MZ BHY1-33-28Z'] },
+    { id:'P28', empresa:'E1', cod:'TY-044650K290', nombre:'Pastillas de freno delanteras originales Toyota', precio:330000, stock:2, reservado:0, pieza:'pastillas-del', origen:'original', marcaRep:'Toyota', oem:'TY 04465-0K290' },
+    { id:'P22', empresa:'E1', cod:'BT-SPK', nombre:'Bandas de freno traseras Spark GT', precio:98000, stock:5, reservado:0, pieza:'freno-tras', origen:'generico', marcaRep:'Fras-le', equiv:['GM 96518647'] },
+    { id:'P17', empresa:'E1', cod:'CD-SPK', nombre:'Kit de correa de distribución Spark GT', precio:320000, stock:2, reservado:0, pieza:'correa', origen:'generico', marcaRep:'Gates', equiv:['GM 25183386'] },
+    { id:'P38', empresa:'E1', cod:'GM-25183386', nombre:'Kit de correa de distribución original GM', precio:520000, stock:1, reservado:0, pieza:'correa', origen:'original', marcaRep:'GM', oem:'GM 25183386' },
+    { id:'P18', empresa:'E1', cod:'FC-11', nombre:'Filtro de cabina (polen) FC-11', precio:42000, stock:7, reservado:0, pieza:'filtro-cabina', origen:'generico', marcaRep:'Mann-Filter', equiv:['GM 96554398'] },
+    { id:'P20', empresa:'E1', cod:'KE-SPK', nombre:'Kit de embrague Spark GT', precio:690000, stock:1, reservado:0, pieza:'embrague', origen:'generico', marcaRep:'LuK', equiv:['GM 95599851'] },
+    { id:'P23', empresa:'E1', cod:'RD-SPK', nombre:'Radiador Spark GT 1.2', precio:410000, stock:1, reservado:0, pieza:'radiador', origen:'generico', marcaRep:'Nissens', equiv:['GM 95227618'] },
+    { id:'P19', empresa:'E1', cod:'PL-18', nombre:'Plumillas limpiaparabrisas 18" (par)', precio:46000, stock:10, reservado:0, pieza:'plumillas', origen:'universal', marcaRep:'Bosch', compat:'*' },
+    { id:'P21', empresa:'E1', cod:'BF-H4', nombre:'Bombillo de farola H4', precio:24000, stock:15, reservado:0, pieza:'farola', origen:'universal', marcaRep:'Philips', compat:'*' },
+    { id:'P26', empresa:'E1', cod:'BS-P21', nombre:'Bombillo de stop P21/5W', precio:9000, stock:20, reservado:0, pieza:'luz-trasera', origen:'universal', marcaRep:'Philips', compat:'*' },
+    { id:'P25', empresa:'E1', cod:'LL-155', nombre:'Llanta 155/70 R14', precio:265000, stock:8, reservado:0, pieza:'llantas', origen:'generico', marcaRep:'Michelin', compat:[{ marca:'Chevrolet', modelo:'Spark GT' }, { marca:'Kia', modelo:'Picanto' }] },
     { id:'P7', empresa:'E2', cod:'PN-156', nombre:'Pantalla 15,6" FHD', precio:320000, stock:2, reservado:0 },
     { id:'P8', empresa:'E2', cod:'PT-01', nombre:'Pasta térmica', precio:15000, stock:10, reservado:0 }
   ],
@@ -550,12 +711,12 @@ const DB = {
   ],
   equipos: [
     { id:'Q1', empresa:'E1', tipo:'T1', ident:'ABC123', attrs:{ Marca:'Chevrolet', Modelo:'Spark GT', 'Año':'2018', Color:'Rojo', VIN:'9GAMM6105JB123456' }, cliente:'C1', medidor:84250 },
-    { id:'Q2', empresa:'E1', tipo:'T1', ident:'JKL456', attrs:{ Marca:'Renault', Modelo:'Duster', 'Año':'2021', Color:'Gris' }, cliente:'C2', medidor:41900 },
-    { id:'Q4', empresa:'E1', tipo:'T1', ident:'MZD789', attrs:{ Marca:'Mazda', Modelo:'3 Touring', 'Año':'2019', Color:'Blanco' }, cliente:'C4', medidor:63010 },
-    { id:'Q5', empresa:'E1', tipo:'T1', ident:'KIA321', attrs:{ Marca:'Kia', Modelo:'Picanto', 'Año':'2022', Color:'Azul' }, cliente:'C5', medidor:22100 },
-    { id:'Q6', empresa:'E1', tipo:'T1', ident:'HLX654', attrs:{ Marca:'Toyota', Modelo:'Hilux', 'Año':'2017', Color:'Plata' }, cliente:'C6', medidor:88000 },
-    { id:'Q7', empresa:'E1', tipo:'T1', ident:'NSM852', attrs:{ Marca:'Nissan', Modelo:'March', 'Año':'2020', Color:'Negro' }, cliente:'C7', medidor:45000 },
-    { id:'Q8', empresa:'E1', tipo:'T1', ident:'ABD128', attrs:{ Marca:'Chevrolet', Modelo:'Onix', 'Año':'2023', Color:'Blanco' }, cliente:'C7', medidor:15800 },
+    { id:'Q2', empresa:'E1', tipo:'T1', ident:'JKL456', attrs:{ Marca:'Renault', Modelo:'Duster', 'Año':'2021', Color:'Gris', VIN:'9FBHSRAJ5MM104582' }, cliente:'C2', medidor:41900 },
+    { id:'Q4', empresa:'E1', tipo:'T1', ident:'MZD789', attrs:{ Marca:'Mazda', Modelo:'3 Touring', 'Año':'2019', Color:'Blanco', VIN:'JM1BPACL3K1203877' }, cliente:'C4', medidor:63010 },
+    { id:'Q5', empresa:'E1', tipo:'T1', ident:'KIA321', attrs:{ Marca:'Kia', Modelo:'Picanto', 'Año':'2022', Color:'Azul', VIN:'KNAB2512ANT482915' }, cliente:'C5', medidor:22100 },
+    { id:'Q6', empresa:'E1', tipo:'T1', ident:'HLX654', attrs:{ Marca:'Toyota', Modelo:'Hilux', 'Año':'2017', Color:'Plata', VIN:'MR0FB8CD1H0731264' }, cliente:'C6', medidor:88000 },
+    { id:'Q7', empresa:'E1', tipo:'T1', ident:'NSM852', attrs:{ Marca:'Nissan', Modelo:'March', 'Año':'2020', Color:'Negro', VIN:'3N1CK3CD5LL256119' }, cliente:'C7', medidor:45000 },
+    { id:'Q8', empresa:'E1', tipo:'T1', ident:'ABD128', attrs:{ Marca:'Chevrolet', Modelo:'Onix', 'Año':'2023', Color:'Blanco', VIN:'9BGEB48A0PG118422' }, cliente:'C7', medidor:15800 },
     { id:'Q9', empresa:'E1', tipo:'T4', ident:'XYZ12D', attrs:{ Marca:'Yamaha', Modelo:'FZ 2.0', Cilindraje:'150 cc' }, cliente:'C2', medidor:30500 },
     { id:'Q10', empresa:'E2', tipo:'T3', ident:'490154203237518', attrs:{ Marca:'Samsung', Modelo:'Galaxy A54' }, cliente:'C3', medidor:null },
     { id:'Q3', empresa:'E2', tipo:'T2', ident:'5CD1234XYZ', attrs:{ Marca:'HP', Modelo:'Pavilion 15', Procesador:'Core i5' }, cliente:'C3', medidor:null }
@@ -673,7 +834,7 @@ DB.bitacora.push(
 /* ================== Estado de la sesión ================== */
 const S = {
   logged:false, empresa:'E1', sede:'S1', rol:'asesor', loginRol:'asesor', loginEmpresa:'E1', loginPass:'demo1234', loginErr:'',
-  view:'inicio', osId:null, filtro:'todas', osDesde:'', osHasta:'',adminTab:'usuarios', repTab:'inventario', repQ:'', bitQ:'', showHU:false,
+  view:'inicio', osId:null, filtro:'todas', osDesde:'', osHasta:'',adminTab:'usuarios', repTab:'inventario', repQ:'', vinQ:'', vinRes:null, pz:null, pzSis:'todos', bitQ:'', showHU:false,
   navOpen:{}, menu:false, tabTec:'tablero', histTab:'equipo', histEq:'Q1', histCli:'C1', mantTab:'proximos',
   phone:{ cliente:null, pagina:'chat', token:null, sel:{}, confirm:null },
   recep:null, f:{}, confirm:null, exportado:null, modal:null, csv:null, dirty:false
@@ -1587,7 +1748,7 @@ function vOrdenes() {
       <button class="btn sm" data-a="osRango" data-e="mes">Este mes</button>
       ${hayRango ? '<button class="btn sm" data-a="osRango" data-e="">Limpiar fechas</button>' : ''}
     </div>
-    <div class="row"><span class="small muted">${ords.length} ${ords.length === 1 ? 'orden' : 'órdenes'}</span><button class="btn" data-a="repOS">Descargar reporte</button></div>
+    <div class="row"><span class="small muted">${ords.length} ${ords.length === 1 ? 'orden' : 'órdenes'}</span><button class="btn" data-a="repOS">Descargar reporte</button>${hu('HU-02.10')}</div>
   </div>
   <div class="tbl-wrap"><table>
     <thead><tr><th>${esc(L('os'))}</th><th>Ingreso</th><th>${esc(L('equipo'))}</th><th>Cliente</th><th>Estado</th><th>${esc(L('tecnico'))}</th><th>Prometida</th><th class="r">Total</th></tr></thead>
@@ -1716,6 +1877,18 @@ function lineaRow(os, l) {
     <td>${resp}</td><td class="r num">${l.cant}</td>
     <td class="r num">${editarPrecio ? `<input id="pr-${l.id}" type="number" value="${l.precio}" data-ch="precio" data-l="${l.id}" style="width:110px;text-align:right">` : (l.cliente ? '₡0' : money(l.precio * l.cant))}</td><td class="r">${acc}</td></tr>`;
 }
+// Equivalentes (original o genéricos del mismo número original) que sí tienen stock suficiente
+function altConStock(p, cant) {
+  const alt = equivalentes(p).filter(x => x.stock - x.reservado >= cant).sort((a, b) => a.precio - b.precio);
+  return alt.length ? `<div class="row" style="margin-top:8px"><span>Equivalentes con stock:</span>${alt.map(x => `<button class="btn sm" data-a="usarAlt" data-id="${x.id}">${esc(x.cod)} · ${esc(origenTxt(x))} · ${money(x.precio)} · ${x.stock - x.reservado} disp.</button>`).join('')} ${hu('HU-05.07')}</div>` : '';
+}
+// Opciones de repuesto: primero los compatibles con el vehículo de la OS (por marca, modelo y año)
+function optsRepuesto(prods, eq, selId) {
+  const opt = x => `<option value="${x.id}" ${selId === x.id ? 'selected' : ''}>${esc(x.cod)} · ${esc(x.nombre)}${x.origen ? ' · ' + esc(origenTxt(x)) : ''} · ${money(x.precio)} · disp. ${x.stock - x.reservado}</option>`;
+  const v = vehDe(eq); if (!v) return prods.map(opt).join('');
+  const comp = prods.filter(x => compatible(x, v)).sort((a, b) => (a.pieza || '').localeCompare(b.pieza || '') || (ORDEN_ORIGEN[a.origen] ?? 3) - (ORDEN_ORIGEN[b.origen] ?? 3)), otros = prods.filter(x => !comp.includes(x));
+  return comp.length ? `<optgroup label="Compatibles con ${esc(vehTxt(v))}">${comp.map(opt).join('')}</optgroup><optgroup label="Otros repuestos">${otros.map(opt).join('')}</optgroup>` : prods.map(opt).join('');
+}
 function formLineas(os, t) {
   const servs = deEmpresa(DB.servicios).filter(s => s.activo && s.tipos.includes(t.id));
   const prods = deEmpresa(DB.productos);
@@ -1727,11 +1900,11 @@ function formLineas(os, t) {
     <div class="row"><select id="add-serv" data-ch="f.serv" style="flex:1;min-width:200px"><option value="">Elige un servicio para ${esc(t.nombre)}</option>${servs.map(s => `<option value="${s.id}" ${f.serv===s.id?'selected':''}>${esc(s.cod)} · ${esc(s.nombre)} · ${String(s.horas).replace('.', ',')} h · ${money(s.precio)}</option>`).join('')}</select>
       <button class="btn" data-a="addServ">Agregar</button></div>
     <div class="label">Agregar repuesto del inventario del POS ${hu('HU-05.01')}</div>
-    <div class="row"><select id="add-prod" data-ch="f.prod" style="flex:1;min-width:200px"><option value="">Elige un repuesto</option>${prods.map(x => `<option value="${x.id}" ${f.prod===x.id?'selected':''}>${esc(x.cod)} · ${esc(x.nombre)} · ${money(x.precio)} · disp. ${x.stock - x.reservado}</option>`).join('')}</select>
+    <div class="row"><select id="add-prod" data-ch="f.prod" style="flex:1;min-width:200px"><option value="">Elige un repuesto</option>${optsRepuesto(prods, eqDe(os.equipo), f.prod)}</select>
       <input id="add-cant" type="number" min="1" value="${esc(f.cant || 1)}" data-in="f.cant" style="width:70px" aria-label="Cantidad">
       <label class="row small" style="gap:4px"><input id="add-cli" type="checkbox" ${f.cli ? 'checked' : ''} data-ch="f.cli"> Lo trae el cliente ${hu('HU-05.04')}</label>
       <button class="btn" data-a="addProd">Agregar</button></div>
-    ${p ? `<div class="note ${disp >= Number(f.cant || 1) ? '' : 'warn'} small">${disp >= Number(f.cant || 1) ? `Disponible en ${esc(E().sedes[S.sede])}: <b>${disp}</b> · precio ${money(p.precio)}` : `<b>Sin stock suficiente:</b> hay ${disp} disponibles. Puedes cotizarlo e indicar al cliente el tiempo de llegada. ${hu('HU-05.05')}`}</div>` : ''}
+    ${p ? `<div class="note ${disp >= Number(f.cant || 1) ? '' : 'warn'} small">${disp >= Number(f.cant || 1) ? `Disponible en ${esc(E().sedes[S.sede])}: <b>${disp}</b> · precio ${money(p.precio)}` : `<b>Sin stock suficiente:</b> hay ${disp} disponibles. Puedes cotizarlo e indicar al cliente el tiempo de llegada. ${hu('HU-05.05')}${altConStock(p, Number(f.cant || 1))}`}</div>` : ''}
   </div>`;
 }
 function formAdicional(os, t) {
@@ -1856,8 +2029,9 @@ function vModal() {
         <span class="small muted">${esc(o.lineas.filter(l => l.tipo === 'repuesto' && l.estadoRep === 'instalado').map(l => `${l.desc} × ${l.cant}`).join(', ') || 'Sin repuestos')}</span></div>`).join('')}`;
   }
   if (m.t === 'perfil') inner = vPerfil();
+  if (m.t === 'vinRep') inner = modalRepVin(m.f);
   if (m.t === 'csv') inner = `<h3>Reporte de productividad en CSV ${hu('HU-04.04')}</h3><pre class="json" id="csv-txt">${esc(S.csv)}</pre><div class="row"><button class="btn pri" data-a="copiarCsv">Copiar al portapapeles</button></div><p class="small muted">En el producto real este botón descarga el archivo.</p>`;
-  return `<div class="modal" data-a="cerrarModalFondo"><div class="doc" role="dialog" aria-modal="true">${inner}<div class="row" style="justify-content:flex-end"><button class="btn" data-a="cerrarModal">Cerrar</button></div></div></div>`;
+  return `<div class="modal" data-a="cerrarModalFondo"><div class="doc ${m.t === 'vinRep' ? 'wide' : ''}" role="dialog" aria-modal="true">${inner}<div class="row" style="justify-content:flex-end"><button class="btn" data-a="cerrarModal">Cerrar</button></div></div></div>`;
 }
 
 /* ================== Técnicos (HU-04.xx) ================== */
@@ -1943,6 +2117,10 @@ function vRepuestos() {
     <div class="row"><input id="rep-q" type="search" placeholder="Buscar por nombre o código" value="${esc(S.repQ)}" data-in="repQ" data-live="1" style="max-width:320px"></div>
     <div class="tbl-wrap" id="rep-tbl">${tablaInventario(prods)}</div>
     <p class="muted small">El inventario es del POS. El módulo solo pide reservar, descontar o liberar; nunca mueve existencias por su cuenta. ${hu('HU-05.02')}</p>`;
+  const conVin = deEmpresa(DB.tipos).some(t => t.atributos.some(a => a.n === 'VIN'));
+  if (!conVin && ['vin','mapa'].includes(S.repTab)) S.repTab = 'inventario';
+  if (S.repTab === 'vin') body = vVin();
+  if (S.repTab === 'mapa') body = `<p class="muted small" style="margin:0">Todas las piezas que se cambian con más frecuencia, con su número, su código en el inventario y dónde van. Pensado para explicarle al cliente qué se le va a cambiar. ${hu('HU-05.08')}</p>` + vMapa(null);
   if (S.repTab === 'reservas') body = `<div class="tbl-wrap"><table><thead><tr><th>${esc(L('os'))}</th><th>Repuesto</th><th class="r">Cant.</th><th>Estado</th></tr></thead><tbody>
     ${reservas.length ? reservas.map(({ o, l }) => `<tr class="click" data-a="abrir" data-id="${o.id}"><td class="mono">${o.numero}</td><td>${esc(l.desc)}</td><td class="r num">${l.cant}</td><td>${l.estadoRep === 'reservado' ? '<span class="chip acc"><i></i>Reservado</span>' : '<span class="chip bad"><i></i>Reserva fallida · sin stock</span>'}</td></tr>`).join('') : '<tr><td colspan="4" class="muted">No hay reservas activas.</td></tr>'}
     </tbody></table></div>`;
@@ -1953,12 +2131,299 @@ function vRepuestos() {
       <tr><td>${fd(dia(-2))}</td><td colspan="5" class="muted">Sin diferencias.</td></tr>
     </tbody></table></div>`;
   return `<div class="page-head"><div><h1>Repuestos</h1><p>Existencias del POS en ${esc(E().sedes[S.sede])}.</p></div></div>
-    <div class="tabs">${[['inventario','Inventario POS'],['reservas','Reservas activas'],['conciliacion','Conciliación diaria']].map(([k,t]) => `<button class="${S.repTab===k?'on':''}" data-a="repTab" data-t="${k}">${t}</button>`).join('')}</div>${body}`;
+    <div class="tabs">${[['inventario','Inventario POS']].concat(conVin ? [['vin','Buscar por VIN'],['mapa','Mapa de piezas']] : [], [['reservas','Reservas activas'],['conciliacion','Conciliación diaria']]).map(([k,t]) => `<button class="${S.repTab===k?'on':''}" data-a="repTab" data-t="${k}">${t}</button>`).join('')}</div>${body}`;
 }
 function tablaInventario(prods) {
-  return `<table><thead><tr><th>Código</th><th>Repuesto</th><th class="r">Precio</th><th class="r">Existencia</th><th class="r">Reservado</th><th class="r">Disponible</th></tr></thead><tbody>
-    ${prods.map(p => { const d = p.stock - p.reservado; return `<tr><td class="mono">${esc(p.cod)}</td><td>${esc(p.nombre)}</td><td class="r num">${money(p.precio)}</td><td class="r num">${p.stock}</td><td class="r num">${p.reservado}</td><td class="r">${d <= 0 ? '<span class="chip bad"><i></i>Sin stock</span>' : `<span class="num">${d}</span>`}</td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">Sin resultados.</td></tr>'}
+  return `<table><thead><tr><th>Código</th><th>Repuesto</th><th class="r">Precio</th><th class="r">Existencia</th><th class="r">Reservado</th><th class="r">Disponible</th><th></th></tr></thead><tbody>
+    ${prods.map(p => { const d = p.stock - p.reservado; return `<tr><td class="mono">${esc(p.cod)}</td><td>${esc(p.nombre)}${compatDe(p) ? `<div class="small muted inv-ref">${origenChip(p)}<span>${esc([refTxt(p), compatTxt(p)].filter(Boolean).join(' · '))}</span></div>` : ''}</td><td class="r num">${money(p.precio)}</td><td class="r num">${p.stock}</td><td class="r num">${p.reservado}</td><td class="r">${d <= 0 ? '<span class="chip bad"><i></i>Sin stock</span>' : `<span class="num">${d}</span>`}</td><td class="r">${p.pieza ? `<button class="btn sm" data-a="verPieza" data-k="${p.pieza}">Ver dónde va</button>` : ''}</td></tr>`; }).join('') || '<tr><td colspan="7" class="muted">Sin resultados.</td></tr>'}
   </tbody></table>`;
+}
+
+/* ================== Repuestos por VIN y mapa de piezas ================== */
+// Sistemas del vehículo: color de la pieza (c) y color del número sobre ese fondo (ci)
+const SISTEMAS = {
+  motor:{ t:'Motor', c:'#F57C00', ci:'#FFFFFF' },
+  filtros:{ t:'Filtros', c:'#00A0B0', ci:'#FFFFFF' },
+  frenos:{ t:'Frenos', c:'#E53935', ci:'#FFFFFF' },
+  suspension:{ t:'Suspensión', c:'#8E5CD9', ci:'#FFFFFF' },
+  electrico:{ t:'Eléctrico', c:'#F2B200', ci:'#1D2129' },
+  transmision:{ t:'Transmisión', c:'#3FA34D', ci:'#FFFFFF' },
+  luces:{ t:'Luces y carrocería', c:'#2F80ED', ci:'#FFFFFF' },
+  escape:{ t:'Escape y combustible', c:'#A07A68', ci:'#FFFFFF' },
+  llantas:{ t:'Llantas', c:'#5D7385', ci:'#FFFFFF' }
+};
+// Piezas del mapa (vista lateral, frente a la izquierda). a = punto de la pieza, p = posición del número.
+const PIEZAS = [
+  { k:'farola', n:1, sis:'luces', nombre:'Farola delantera', a:[88,268], p:[60,62], donde:'Al frente, a cada lado de la parrilla. Son los “ojos” del carro.', cuando:'El bombillo se cambia cuando se funde o alumbra poco.' },
+  { k:'correa', n:2, sis:'motor', nombre:'Correa de distribución', a:[114,300], p:[115,62], donde:'Al costado del motor, escondida bajo una tapa plástica. Hace que las piezas internas del motor giren al mismo ritmo.', cuando:'Cada 50.000 a 60.000 km. Si se rompe, el motor se daña: no conviene esperar.' },
+  { k:'filtro-aire', n:3, sis:'filtros', nombre:'Filtro de aire', a:[157,261], p:[170,62], donde:'Encima del motor, dentro de una caja plástica con tapa y ganchos. Limpia el aire que “respira” el motor.', cuando:'Cada 10.000 km, o antes si se maneja por zonas con mucho polvo.' },
+  { k:'bujias', n:4, sis:'motor', nombre:'Bujías', a:[195,264], p:[225,62], donde:'Arriba del motor, una por cada cilindro. Dan la chispa que enciende la gasolina.', cuando:'Cada 20.000 a 40.000 km. Señal: el carro tiembla en mínimo o gasta más gasolina.' },
+  { k:'amort-del', n:5, sis:'suspension', nombre:'Amortiguador delantero', a:[249,280], p:[280,62], donde:'Detrás de cada rueda delantera, dentro de un resorte en espiral. Evita que el carro rebote.', cuando:'Revisar cada 40.000 km o si el carro rebota o suena al pasar huecos.' },
+  { k:'bateria', n:6, sis:'electrico', nombre:'Batería', a:[281,259], p:[335,62], donde:'Bajo el capó, a un lado del motor. Es una caja rectangular con dos bornes: + (rojo) y − (negro).', cuando:'Dura de 2 a 4 años. Señal: al carro le cuesta arrancar.' },
+  { k:'liquido-frenos', n:7, sis:'frenos', nombre:'Líquido de frenos', a:[319,246], p:[390,62], donde:'En un depósito transparente bajo el capó, cerca del parabrisas del lado del conductor. La tapa tiene el símbolo del freno.', cuando:'Cambiar cada 2 años o 40.000 km.' },
+  { k:'plumillas', n:8, sis:'luces', nombre:'Plumillas limpiaparabrisas', a:[345,215], p:[445,62], donde:'Sobre el parabrisas, en la parte de abajo. Limpian el vidrio cuando llueve.', cuando:'Cada 6 a 12 meses, o cuando dejan rayas en el vidrio.' },
+  { k:'filtro-cabina', n:9, sis:'filtros', nombre:'Filtro de cabina (polen)', a:[381,258], p:[500,62], donde:'Dentro del carro, detrás de la guantera. Limpia el aire que sale por las rejillas del aire acondicionado.', cuando:'Cada 15.000 km o una vez al año.' },
+  { k:'amort-tras', n:10, sis:'suspension', nombre:'Amortiguador trasero', a:[791,280], p:[820,62], donde:'Detrás de cada rueda trasera, entre la rueda y la carrocería.', cuando:'Revisar cada 40.000 km o si la parte de atrás rebota.' },
+  { k:'luz-trasera', n:11, sis:'luces', nombre:'Luz trasera (stop)', a:[918,254], p:[915,62], donde:'Atrás, a cada lado del baúl. Incluye la luz de freno, la direccional y la de reversa.', cuando:'El bombillo se cambia cuando se funde.' },
+  { k:'radiador', n:12, sis:'motor', nombre:'Radiador', a:[79,311], p:[60,438], donde:'Al frente, detrás de la parrilla. Enfría el agua (refrigerante) que pasa por el motor.', cuando:'Revisar si el carro se recalienta o deja charcos verdes o rosados.' },
+  { k:'aceite', n:13, sis:'motor', nombre:'Aceite de motor', a:[150,300], p:[115,438], donde:'Dentro del motor, el bloque grande del frente. Se echa por la tapa de arriba y se mide con la varilla.', cuando:'Cada 5.000 a 10.000 km, junto con el filtro de aceite.' },
+  { k:'filtro-aceite', n:14, sis:'filtros', nombre:'Filtro de aceite', a:[159,343], p:[170,438], donde:'Debajo del motor; se alcanza por debajo del carro. Parece una lata pequeña que se enrosca.', cuando:'Siempre que se cambia el aceite.' },
+  { k:'disco-del', n:15, sis:'frenos', nombre:'Disco de freno delantero', a:[222,362], p:[225,438], donde:'Dentro de cada rueda delantera. Es el disco de metal que se ve entre los rayos del rin.', cuando:'Cada 2 o 3 cambios de pastillas, o si el timón vibra al frenar.' },
+  { k:'pastillas-del', n:16, sis:'frenos', nombre:'Pastillas de freno delanteras', a:[257,326], p:[280,438], donde:'Dentro de la rueda delantera, abrazando el disco. Al pisar el freno lo aprietan para detener el carro.', cuando:'Cada 20.000 a 40.000 km. Señal: chillido al frenar.' },
+  { k:'embrague', n:17, sis:'transmision', nombre:'Embrague', a:[289,304], p:[335,438], donde:'Entre el motor y la caja de cambios. Une el motor con las ruedas cuando sueltas el pedal de la izquierda.', cuando:'Cada 80.000 a 120.000 km. Señal: el pedal queda alto o el carro “patina” al acelerar.' },
+  { k:'tanque', n:18, sis:'escape', nombre:'Tanque de combustible', a:[652,327], p:[650,438], donde:'Debajo de los asientos de atrás. Guarda la gasolina.', cuando:'No se cambia: se revisa si hay fugas u olor a gasolina.' },
+  { k:'freno-tras', n:19, sis:'frenos', nombre:'Frenos traseros', a:[765,345], p:[740,438], donde:'Dentro de cada rueda trasera. En carros pequeños son “bandas” dentro de un tambor.', cuando:'Cada 40.000 a 60.000 km. Señal: el freno de mano no sostiene el carro.' },
+  { k:'llantas', n:20, sis:'llantas', nombre:'Llantas', a:[812,378], p:[815,438], donde:'Las cuatro ruedas. La medida está escrita en el costado de la llanta, por ejemplo 155/70 R14.', cuando:'Cuando el labrado tiene menos de 1,6 mm o cada 5 años.' },
+  { k:'silenciador', n:21, sis:'escape', nombre:'Silenciador (escape)', a:[866,357], p:[890,438], donde:'Debajo del carro, atrás, al final del tubo de escape. Baja el ruido del motor.', cuando:'Si el carro suena más fuerte de lo normal o huele a humo por dentro.' }
+];
+const pzDe = k => PIEZAS.find(p => p.k === k);
+// Forma de cada pieza en el dibujo. ".s" se colorea con el color del sistema; ".ln" es solo trazo.
+const PZ_SVG = {
+  'silenciador':'<path class="s ln w" d="M186,334 L192,357 L835,357"/><rect class="s" x="835" y="347" width="62" height="20" rx="10"/><path class="s ln w" d="M897,357 L936,357"/>',
+  'tanque':'<rect class="s" x="606" y="314" width="92" height="26" rx="9"/>',
+  'llantas':'<circle class="s tire" cx="235" cy="345" r="56"/><circle class="s tire" cx="765" cy="345" r="56"/>',
+  'disco-del':'<circle class="s" cx="235" cy="345" r="23"/><circle class="s ln" cx="235" cy="345" r="8"/>',
+  'pastillas-del':'<path class="s ln w2" d="M250,319 A30,30 0 0 1 263.2,334.7"/>',
+  'freno-tras':'<circle class="s" cx="765" cy="345" r="24"/><circle class="s ln" cx="765" cy="345" r="9"/>',
+  'aceite':'<rect class="s" x="104" y="270" width="100" height="62" rx="12"/><path class="s ln" d="M140,282 h40 M140,292 h40"/>',
+  'correa':'<rect class="s" x="104" y="274" width="20" height="54" rx="10"/><circle class="s" cx="114" cy="285" r="6"/><circle class="s" cx="114" cy="318" r="5"/>',
+  'radiador':'<rect class="s" x="72" y="288" width="14" height="46" rx="3"/><path class="s ln" d="M75,297 h8 M75,305 h8 M75,313 h8 M75,321 h8 M75,329 h8"/>',
+  'filtro-aire':'<rect class="s" x="130" y="254" width="54" height="15" rx="7.5"/>',
+  'bujias':'<rect class="s" x="187" y="258" width="6" height="13" rx="2"/><rect class="s" x="197" y="258" width="6" height="13" rx="2"/>',
+  'filtro-aceite':'<rect class="s" x="150" y="332" width="18" height="22" rx="4"/>',
+  'embrague':'<rect class="s" x="262" y="280" width="54" height="48" rx="12"/><circle class="s ln" cx="289" cy="304" r="14"/>',
+  'bateria':'<rect class="s" x="258" y="246" width="46" height="27" rx="4"/><rect class="s" x="264" y="241" width="8" height="5" rx="1"/><rect class="s" x="290" y="241" width="8" height="5" rx="1"/>',
+  'liquido-frenos':'<rect class="s" x="312" y="238" width="14" height="17" rx="3"/>',
+  'amort-del':'<path class="s ln" d="M250,256 L243,262 L256,268 L243,274 L256,280 L243,286 L256,292 L249,296"/><rect class="s" x="245" y="294" width="9" height="26" rx="3"/>',
+  'amort-tras':'<path class="s ln" d="M792,256 L785,262 L798,268 L785,274 L798,280 L785,286 L798,292 L791,296"/><rect class="s" x="787" y="294" width="9" height="24" rx="3"/>',
+  'farola':'<path class="s" d="M58,284 Q58,268 78,263 L116,258 L114,272 Q88,280 58,284 Z"/>',
+  'luz-trasera':'<path class="s" d="M904,237 Q925,247 929,272 L913,272 Q911,253 900,241 Z"/>',
+  'plumillas':'<path class="s ln w" d="M316,231 L372,200"/>',
+  'filtro-cabina':'<rect class="s" x="362" y="252" width="38" height="13" rx="3"/>'
+};
+// Orden de dibujo: lo de abajo del carro primero, luego carrocería, llantas y piezas (efecto rayos X).
+const PZ_ORDEN = ['silenciador','tanque','@carro','llantas','@rines','disco-del','pastillas-del','freno-tras','aceite','correa','radiador','filtro-aire','bujias','filtro-aceite','embrague','bateria','liquido-frenos','amort-del','amort-tras','farola','luz-trasera','plumillas','filtro-cabina'];
+const PZ_CARRO = `<g class="pz-car" aria-hidden="true">
+  <path class="pz-body" d="M60,345 L50,300 Q52,270 72,258 L330,226 Q390,170 452,140 Q470,131 500,131 L680,131 Q705,132 722,142 L840,210 Q900,220 915,232 Q932,262 930,300 L928,345 L835,345 A70,70 0 0 0 695,345 L305,345 A70,70 0 0 0 165,345 Z"/>
+  <path class="pz-glass" d="M352,224 L455,150 Q470,142 495,142 L570,142 L570,221 Z"/>
+  <path class="pz-glass" d="M582,142 L675,142 Q698,143 712,152 L805,212 L582,221 Z"/>
+  <path class="pz-line" d="M340,228 L340,338 M576,142 L576,338 M805,214 Q800,280 792,338 M335,226 L835,213"/>
+  <path class="pz-line" d="M505,252 h22 M722,250 h22"/>
+  <path class="pz-glass" d="M352,226 L343,212 Q348,204 364,206 L371,221 Z"/>
+  <path class="pz-deco" d="M528,312 L548,228 Q550,216 538,214 M528,312 L468,306 M718,312 L738,230 Q740,218 728,216 M718,312 L660,306 M438,236 L404,264"/>
+  <rect class="pz-deco" x="532" y="198" width="22" height="16" rx="7"/><rect class="pz-deco" x="722" y="200" width="22" height="16" rx="7"/>
+  <ellipse class="pz-deco" cx="438" cy="236" rx="5" ry="19" transform="rotate(-24 438 236)"/>
+</g>`;
+const PZ_RINES = `<g class="pz-car" aria-hidden="true"><circle class="pz-rim" cx="235" cy="345" r="36"/><circle class="pz-rim" cx="765" cy="345" r="36"/></g>`;
+const pzColor = p => `--c:${SISTEMAS[p.sis].c};--ci:${SISTEMAS[p.sis].ci}`;
+function pzClases(p, ctx) {
+  const c = [];
+  if (ctx.sel === p.k) c.push('sel');
+  if (ctx.on && !ctx.on.has(p.k)) c.push('off');
+  if (ctx.sis !== 'todos' && p.sis !== ctx.sis) c.push('fx');
+  return c.join(' ');
+}
+// Dibujo del carro con sus piezas y números. ctx = { sel, sis, on (Set de piezas con repuesto, o null) }
+function mapaSVG(ctx) {
+  const parte = k => { const p = pzDe(k); return `<g class="pz-part ${pzClases(p, ctx)}" style="${pzColor(p)}" data-a="pz" data-k="${k}" data-pzh="${k}"><title>${p.n}. ${esc(p.nombre)}</title>${PZ_SVG[k]}</g>`; };
+  const cuerpo = PZ_ORDEN.map(k => k === '@carro' ? PZ_CARRO : k === '@rines' ? PZ_RINES : parte(k)).join('');
+  const pines = PIEZAS.map(p => {
+    const [px, py] = p.p, [ax, ay] = p.a, y0 = py < 200 ? py + 17 : py - 17;
+    return `<g class="pz-pin ${pzClases(p, ctx)}" style="${pzColor(p)}" data-a="pz" data-k="${p.k}" data-pzh="${p.k}">
+      <line class="pz-lead" x1="${px}" y1="${y0}" x2="${ax}" y2="${ay}"/><circle class="pz-dot" cx="${ax}" cy="${ay}" r="3.5"/>
+      ${ctx.sel === p.k ? `<circle class="pz-halo" cx="${ax}" cy="${ay}" r="26"/><circle class="pz-ring" cx="${px}" cy="${py}" r="17"/>` : ''}
+      <circle class="pz-bub" cx="${px}" cy="${py}" r="17"/><text x="${px}" y="${py}">${p.n}</text><title>${p.n}. ${esc(p.nombre)}</title></g>`;
+  }).join('');
+  return `<svg class="pz-svg ${ctx.sel ? 'has-sel' : ''}" viewBox="0 0 1000 470" role="img" aria-label="Mapa de piezas del vehículo: vista lateral con el frente a la izquierda">
+    <ellipse class="pz-shadow" cx="495" cy="404" rx="440" ry="9"/>
+    <text class="pz-orient" x="14" y="24">◀ Frente</text><text class="pz-orient" x="986" y="24" text-anchor="end">Atrás ▶</text>
+    ${cuerpo}${pines}</svg>`;
+}
+// Números de parte originales (del fabricante del vehículo) y con qué vehículos sirven.
+// Un repuesto original ES uno de estos números; un genérico declara a cuáles equivale y hereda su compatibilidad.
+const OEM = [
+  { num:'GM 96879797', pieza:'filtro-aceite', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2013, hasta:2021 }, { marca:'Chevrolet', modelo:'Onix', desde:2020, hasta:2024 }] },
+  { num:'GM 96800256', pieza:'pastillas-del', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2013, hasta:2021 }] },
+  { num:'GM 95961346', pieza:'filtro-aire', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }] },
+  { num:'GM 94580124', pieza:'amort-del', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }] },
+  { num:'GM 95227541', pieza:'amort-tras', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }] },
+  { num:'GM 96535094', pieza:'disco-del', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }, { marca:'Chevrolet', modelo:'Onix', desde:2020, hasta:2024 }] },
+  { num:'GM 96518647', pieza:'freno-tras', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2013, hasta:2021 }] },
+  { num:'GM 25183386', pieza:'correa', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2012, hasta:2021 }] },
+  { num:'GM 96554398', pieza:'filtro-cabina', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2013, hasta:2021 }, { marca:'Chevrolet', modelo:'Onix', desde:2020, hasta:2024 }] },
+  { num:'GM 95599851', pieza:'embrague', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }] },
+  { num:'GM 95227618', pieza:'radiador', compat:[{ marca:'Chevrolet', modelo:'Spark GT', desde:2016, hasta:2021 }] },
+  { num:'MZ PE01-14-302', pieza:'filtro-aceite', compat:[{ marca:'Mazda', modelo:'3 Touring', desde:2014, hasta:2022 }] },
+  { num:'MZ BHY1-33-28Z', pieza:'pastillas-del', compat:[{ marca:'Mazda', modelo:'3 Touring', desde:2014, hasta:2022 }] },
+  { num:'RN 152089599R', pieza:'filtro-aceite', compat:[{ marca:'Renault', modelo:'Duster', desde:2016, hasta:2024 }, { marca:'Nissan', modelo:'March', desde:2016, hasta:2022 }] },
+  { num:'RN 543026R', pieza:'amort-del', compat:[{ marca:'Renault', modelo:'Duster', desde:2017, hasta:2024 }] },
+  { num:'KI 26300-35505', pieza:'filtro-aceite', compat:[{ marca:'Kia', modelo:'Picanto', desde:2017, hasta:2024 }] },
+  { num:'TY 90915-10003', pieza:'filtro-aceite', compat:[{ marca:'Toyota', modelo:'Hilux', desde:2016, hasta:2024 }] },
+  { num:'TY 04465-0K290', pieza:'pastillas-del', compat:[{ marca:'Toyota', modelo:'Hilux', desde:2016, hasta:2024 }] }
+];
+const oemDe = n => OEM.find(o => o.num === n);
+const numsDe = p => p.oem ? [p.oem] : p.equiv || [];
+// Con qué vehículos sirve un repuesto: universal, heredado de sus números originales, o su lista propia
+function compatDe(p) {
+  if (p.compat === '*') return '*';
+  const n = numsDe(p);
+  if (n.length) return n.flatMap(x => (oemDe(x) || {}).compat || []);
+  return p.compat || null;
+}
+// Compatibilidad de un repuesto con un vehículo { marca, modelo, anio }
+function compatible(p, v) {
+  const cs = compatDe(p);
+  if (!cs || !v) return false;
+  if (cs === '*') return true;
+  return cs.some(c => c.marca === v.marca && (!c.modelo || c.modelo === v.modelo) && (!v.anio || ((!c.desde || v.anio >= c.desde) && (!c.hasta || v.anio <= c.hasta))));
+}
+function compatTxt(p) {
+  const cs = compatDe(p);
+  if (!cs) return '';
+  if (cs === '*') return 'Sirve para cualquier vehículo';
+  return [...new Set(cs.map(c => [c.marca, c.modelo, c.desde ? (c.hasta ? `${c.desde}–${c.hasta}` : `desde ${c.desde}`) : ''].filter(Boolean).join(' ')))].join(' · ');
+}
+// Repuestos que sirven en lugar de otro: comparten al menos un número original
+const equivalentes = p => { const n = numsDe(p); return n.length ? deEmpresa(DB.productos).filter(x => x !== p && numsDe(x).some(y => n.includes(y))) : []; };
+const ORIGEN = { original:'Original', generico:'Genérico', universal:'Universal' };
+const ORDEN_ORIGEN = { original:0, generico:1, universal:2 };
+const origenTxt = p => p.origen ? ORIGEN[p.origen] + (p.marcaRep ? ' · ' + p.marcaRep : '') : '';
+const origenChip = p => p.origen ? `<span class="org org-${p.origen}">${esc(origenTxt(p))}</span>` : '';
+const refTxt = p => p.oem ? `N.º original ${p.oem}` : p.equiv ? `Equivale al original ${p.equiv.join(', ')}` : '';
+function resumenOrigen(prods) {
+  const n = k => prods.filter(p => p.origen === k).length;
+  const o = n('original'), g = n('generico'), u = n('universal');
+  return [o ? (o === 1 ? 'Original' : o + ' originales') : '', g ? g + (g === 1 ? ' genérico' : ' genéricos') : '', u ? 'Universal' : ''].filter(Boolean).join(' + ');
+}
+// Solo los tipos de equipo con VIN (vehículos) usan compatibilidad por marca, modelo y año
+const tieneVin = eq => !!(eq && eq.attrs && byId(DB.tipos, eq.tipo).atributos.some(a => a.n === 'VIN'));
+const vehDe = eq => tieneVin(eq) ? { marca:eq.attrs.Marca, modelo:eq.attrs.Modelo, anio:Number(eq.attrs['Año']) || null } : null;
+const vehTxt = v => [v.marca, v.modelo, v.anio].filter(Boolean).join(' ');
+// Lectura del VIN (simulada): fabricante por los 3 primeros caracteres, modelo por los 5 primeros y año por el 10.º
+const WMI = { '9GA':['Chevrolet','Colombia'], '9BG':['Chevrolet','Brasil'], '9FB':['Renault','Colombia'], 'JM1':['Mazda','Japón'], 'KNA':['Kia','Corea del Sur'], 'MR0':['Toyota','Tailandia'], '3N1':['Nissan','México'], 'WVW':['Volkswagen','Alemania'] };
+const VDS = { '9GAMM':'Spark GT', '9BGEB':'Onix', '9FBHS':'Duster', 'JM1BP':'3 Touring', 'KNAB2':'Picanto', 'MR0FB':'Hilux', '3N1CK':'March' };
+function anioVin(c) { const i = 'ABCDEFGHJKLMNPRSTVWXY'.indexOf(c); return i >= 0 ? 2010 + i : /[1-9]/.test(c) ? 2000 + Number(c) : null; }
+function leerVin(q) {
+  const v = norm(q);
+  if (!v) return { ok:false, err:'Escribe el VIN o la placa del vehículo.' };
+  const eqs = deEmpresa(DB.equipos).filter(tieneVin);
+  const porPlaca = eqs.find(e => norm(e.ident) === v);
+  if (porPlaca) return porPlaca.attrs.VIN ? Object.assign(leerVin(porPlaca.attrs.VIN), { porPlaca:true })
+    : Object.assign({ ok:true, vin:null, equipo:porPlaca, porPlaca:true }, vehDe(porPlaca));
+  const donde = 'Lo encuentras en la tarjeta de propiedad, en la base del parabrisas del lado del conductor o en el marco de la puerta.';
+  if (v.length !== 17) return { ok:false, err:`El VIN tiene 17 caracteres y escribiste ${v.length}.`, hint:donde };
+  if (/[IOQ]/.test(v)) return { ok:false, err:'El VIN no usa las letras I, O ni Q. Revisa si es el número 1 o el 0.' };
+  const w = WMI[v.slice(0, 3)];
+  if (!w) return { ok:false, err:`No reconocemos el fabricante: los 3 primeros caracteres son ${v.slice(0, 3)}.`, hint:donde };
+  const equipo = eqs.find(e => e.attrs.VIN === v) || null;
+  const r = { ok:true, vin:v, marca:w[0], pais:w[1], modelo:VDS[v.slice(0, 5)] || null, anio:anioVin(v[9]), equipo };
+  return equipo ? Object.assign(r, vehDe(equipo)) : r;
+}
+function vinSegs(r) {
+  const v = r.vin;
+  const segs = [[0,3,'Fabricante',`${r.marca} · ${r.pais}`],[3,8,'Modelo y motor',r.modelo || 'No identificado'],[8,9,'Control','Dígito'],[9,10,'Año',r.anio ? String(r.anio) : '—'],[10,11,'Planta','Fábrica'],[11,17,'Serie','Número único']];
+  return `<div class="vin-segs" aria-label="Partes del VIN">${segs.map(([a, b, t, d], i) => `<div class="vin-seg v${i}"><span class="mono">${v.slice(a, b)}</span><b>${t}</b><small>${esc(d)}</small></div>`).join('')}</div>`;
+}
+const ICO_CARRO = '<svg viewBox="0 0 64 32" aria-hidden="true"><path d="M4 24v-6l6-2 8-8h22l10 8 8 2v6h-6"/><path d="M14 24h26"/><circle cx="12" cy="24" r="5"/><circle cx="46" cy="24" r="5"/><path d="M20 16h26M31 8v8"/></svg>';
+function dispChip(prods) {
+  const d = prods.reduce((s, p) => s + Math.max(0, p.stock - p.reservado), 0);
+  return d > 0 ? `<span class="chip good"><i></i>${d} disp.</span>` : '<span class="chip bad"><i></i>Sin stock</span>';
+}
+// Repuestos de una pieza agrupados: originales del fabricante, alternativas genéricas y universales.
+// Cada genérico muestra cuánto ahorra frente al original equivalente más barato.
+function prodsPorOrigen(pr, titulos = true) {
+  const fila = x => {
+    const d = x.stock - x.reservado;
+    const orig = x.origen === 'generico' ? equivalentes(x).filter(e => e.origen === 'original').sort((a, b) => a.precio - b.precio)[0] : null;
+    const ahorro = orig && orig.precio > x.precio ? Math.round((1 - x.precio / orig.precio) * 100) : 0;
+    return `<div class="pz-prod"><span class="mono">${esc(x.cod)}</span><div><b>${esc(x.nombre)}</b>${origenChip(x)}<small>${esc([refTxt(x), compatTxt(x)].filter(Boolean).join(' · '))}</small></div>
+      <span class="pz-precio"><span class="num">${money(x.precio)}</span>${ahorro ? `<span class="ahorro">${ahorro} % menos que el original</span>` : ''}</span>${d > 0 ? `<span class="chip good"><i></i>${d} disp.</span>` : '<span class="chip bad"><i></i>Sin stock</span>'}</div>`;
+  };
+  const grupos = [['original','Original del fabricante','Mismo repuesto que trae el vehículo de fábrica.'],['generico','Alternativas genéricas','Otras marcas que reemplazan al original.'],['universal','Universales','Sirven para cualquier vehículo.']];
+  return grupos.map(([k, t, ayuda]) => {
+    const xs = pr.filter(x => x.origen === k).sort((a, b) => a.precio - b.precio);
+    return xs.length ? `<div class="pz-og">${titulos ? `<div class="pz-og-t"><span class="org org-${k}">${t}</span><small>${ayuda}</small></div>` : ''}<div class="pz-prods">${xs.map(fila).join('')}</div></div>` : '';
+  }).join('') + (pr.some(x => !x.origen) ? `<div class="pz-prods">${pr.filter(x => !x.origen).map(fila).join('')}</div>` : '');
+}
+// Mapa de piezas con lista y detalle. veh = vehículo leído por VIN, o null para ver todas las piezas.
+function vMapa(veh) {
+  const prods = deEmpresa(DB.productos).filter(p => p.pieza);
+  const de = k => prods.filter(p => p.pieza === k && (!veh || compatible(p, veh)));
+  const on = veh ? new Set(PIEZAS.filter(p => de(p.k).length).map(p => p.k)) : null;
+  const sel = S.pz && pzDe(S.pz) ? S.pz : null;
+  const sis = S.pzSis || 'todos';
+  const ctx = { sel, sis, on };
+  const filtros = `<div class="row pz-sis"><button class="chip filt ${sis === 'todos' ? 'acc' : ''}" data-a="pzSis" data-s="todos">Todo el carro</button>${Object.entries(SISTEMAS).map(([k, s]) => `<button class="chip filt ${sis === k ? 'acc' : ''}" data-a="pzSis" data-s="${k}"><i style="background:${s.c}"></i>${s.t}</button>`).join('')}</div>`;
+  let det;
+  if (sel) {
+    const p = pzDe(sel), pr = de(sel), otros = veh ? prods.filter(x => x.pieza === sel && !pr.includes(x)).length : 0;
+    det = `<div class="pz-det" style="${pzColor(p)}">
+      <div class="pz-det-h"><span class="pz-num lg">${p.n}</span><div style="flex:1;min-width:0"><h3>${esc(p.nombre)}</h3><span class="pz-tag">${SISTEMAS[p.sis].t}</span></div><button class="btn sm" data-a="pz" data-k="">Cerrar</button></div>
+      <div class="pz-facts">
+        <div><div class="label">Dónde va</div><p>${esc(p.donde)}</p></div>
+        <div><div class="label">Cuándo se cambia</div><p>${esc(p.cuando)}</p></div>
+      </div>
+      <div class="label">${veh ? 'Repuestos para ' + esc(vehTxt(veh)) : 'Repuestos en inventario'}</div>
+      ${pr.length ? prodsPorOrigen(pr)
+        : `<div class="note small">${veh ? 'No hay un repuesto de esta pieza para este vehículo en el inventario del POS.' : 'Esta pieza no tiene referencias en el inventario del POS.'}</div>`}
+      ${otros ? `<p class="small muted" style="margin:0">Hay ${otros} ${otros === 1 ? 'referencia' : 'referencias'} de esta pieza para otros vehículos.</p>` : ''}
+    </div>`;
+  } else det = `<div class="pz-det pz-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v5l4.5 1.2a2 2 0 0 1 1.4 2.4L17.5 20H9.8L5.6 14.6a1.6 1.6 0 0 1 2.4-2.1z"/></svg><span>Toca un número o una pieza del dibujo para ver qué es, dónde va y qué repuestos hay.</span></div>`;
+  const item = p => {
+    const pr = de(p.k);
+    return `<div class="pz-item ${sel === p.k ? 'sel' : ''} ${on && !on.has(p.k) ? 'off' : ''}" style="${pzColor(p)}" data-a="pz" data-k="${p.k}" data-pzh="${p.k}" role="button" tabindex="0">
+      <span class="pz-num">${p.n}</span><span class="pz-item-t"><b>${esc(p.nombre)}</b><small>${pr.length ? esc(resumenOrigen(pr)) : veh ? 'Sin repuesto para este vehículo' : 'Sin referencia en inventario'}</small></span>${pr.length ? dispChip(pr) : ''}</div>`;
+  };
+  const lista = Object.entries(SISTEMAS).filter(([k]) => sis === 'todos' || sis === k).map(([k, s]) => {
+    const ps = PIEZAS.filter(p => p.sis === k).sort((a, b) => a.n - b.n);
+    return ps.length ? `<div class="pz-grp"><div class="pz-grp-t"><i style="background:${s.c}"></i>${s.t}</div>${ps.map(item).join('')}</div>` : '';
+  }).join('');
+  const cuenta = on ? `${on.size} de ${PIEZAS.length} piezas con repuesto` : `${PIEZAS.length} piezas`;
+  return `<div class="pz-grid">
+    <section class="card pz-stage">${filtros}<div class="pz-canvas">${mapaSVG(ctx)}</div><div class="pz-swipe">Desliza el dibujo de lado para ver todo el carro ↔</div>${det}</section>
+    <aside class="card pz-side"><div class="spread"><h3>Piezas</h3><span class="small muted">${cuenta}</span></div><div class="pz-list">${lista}</div></aside>
+  </div>`;
+}
+// Modal con los repuestos compatibles del vehículo buscado, filtrables por origen o disponibilidad y agrupados por pieza
+const FILTROS_REP = [['todos','Todos'],['original','Originales'],['generico','Genéricos'],['universal','Universales'],['disp','Disponibles hoy']];
+function modalRepVin(f) {
+  const r = S.vinRes; if (!r || !r.ok) return '';
+  const comp = deEmpresa(DB.productos).filter(p => p.pieza && compatible(p, r));
+  const pasa = (p, k) => k === 'todos' || (k === 'disp' ? p.stock - p.reservado > 0 : p.origen === k);
+  const xs = comp.filter(p => pasa(p, f));
+  const piezas = PIEZAS.filter(pz => xs.some(p => p.pieza === pz.k)).sort((a, b) => a.n - b.n);
+  const titulo = { todos:'Repuestos compatibles', original:'Repuestos originales', generico:'Repuestos genéricos', universal:'Repuestos universales', disp:'Repuestos disponibles hoy' }[f];
+  return `<div class="spread"><div><div class="label">${esc(vehTxt(r))}</div><h3 style="margin:2px 0 0">${titulo} · ${xs.length}</h3></div>${hu('HU-05.07')}</div>
+    <div class="row rep-filt">${FILTROS_REP.map(([k, t]) => `<button class="chip filt ${f === k ? 'acc' : ''}" data-a="vinRep" data-f="${k}">${t} <span class="num">${comp.filter(p => pasa(p, k)).length}</span></button>`).join('')}</div>
+    ${xs.length ? `<div class="rep-list">${piezas.map(pz => `<section class="rep-pz" style="${pzColor(pz)}">
+      <div class="rep-pz-h"><span class="pz-num">${pz.n}</span><b>${esc(pz.nombre)}</b><span class="small muted">${SISTEMAS[pz.sis].t}</span><button class="btn sm" data-a="vinVerPieza" data-k="${pz.k}">Ver en el carro</button></div>
+      ${prodsPorOrigen(xs.filter(p => p.pieza === pz.k), !ORIGEN[f])}</section>`).join('')}</div>`
+      : `<div class="note">No hay repuestos ${f === 'disp' ? 'disponibles hoy' : 'de este tipo'} para este vehículo.</div>`}`;
+}
+function vVin() {
+  const r = S.vinRes, n = norm(S.vinQ).length;
+  const ejemplos = [['9GAMM6105JB123456','Spark GT'],['JM1BPACL3K1203877','Mazda 3'],['9GAMM6108LB377120','No registrado'],['JKL456','Por placa'],['WVWZZZ1KZ8W000001','Modelo desconocido']];
+  const buscador = `<section class="card vin-hero">
+    <div><h3>Busca repuestos con el VIN ${hu('HU-05.07')}</h3>
+      <p class="small muted" style="margin:6px 0 0">El VIN es el número de 17 caracteres que identifica al vehículo. Está en la tarjeta de propiedad, en la base del parabrisas del lado del conductor y en el marco de la puerta. También puedes escribir la placa.</p></div>
+    <div class="vin-box"><input id="vin-q" class="mono" type="search" autocomplete="off" spellcheck="false" maxlength="24" enterkeyhint="search" placeholder="9GAMM6105JB123456" value="${esc(S.vinQ)}" data-in="vinQ" data-live="1" aria-label="VIN o placa del vehículo">
+      <span id="vin-cnt" class="vin-cnt ${n === 17 ? 'ok' : ''}">${n}/17</span><button class="btn pri" data-a="vinBuscar">Buscar repuestos</button></div>
+    <div class="row small"><span class="muted">Prueba con:</span>${ejemplos.map(([v, t]) => `<button class="chip filt vin-ej" data-a="vinEj" data-v="${v}"><span class="mono">${v}</span><span class="muted">${t}</span></button>`).join('')}</div>
+  </section>`;
+  if (!r) return buscador;
+  if (!r.ok) return buscador + `<div class="note bad"><b>No pudimos leer el VIN.</b> ${esc(r.err)}${r.hint ? ' ' + esc(r.hint) : ''}</div>`;
+  const eq = r.equipo, osAb = eq ? deEmpresa(DB.ordenes).find(o => o.equipo === eq.id && o.estado !== 'entregada') : null;
+  const comp = deEmpresa(DB.productos).filter(p => p.pieza && compatible(p, r));
+  const disp = comp.filter(p => p.stock - p.reservado > 0).length;
+  const nOrig = comp.filter(p => p.origen === 'original').length, nGen = comp.filter(p => p.origen === 'generico').length;
+  return buscador + `<section class="card vin-veh">
+    <div class="vin-veh-h"><div class="vin-car">${ICO_CARRO}</div>
+      <div style="flex:1;min-width:220px"><div class="label">${r.porPlaca ? 'Encontrado por placa' : 'Vehículo identificado'}</div><h2>${esc(vehTxt(r))}</h2>
+        <div class="row small">${eq ? `${identChip(eq)}<span>${esc(cliDe(eq.cliente).nombre)}</span><a href="#historial" data-a="recExp" data-id="${eq.id}">Ver expediente</a>` : '<span class="chip">No registrado en el centro</span>'}${osAb ? `<a href="#orden" data-a="abrir" data-id="${osAb.id}">${esc(L('os'))} ${osAb.numero} abierta</a>` : ''}</div></div>
+      <div class="vin-stats">${[['todos', comp.length, 'repuestos compatibles'], ['original', nOrig, 'originales'], ['generico', nGen, 'genéricos'], ['disp', disp, 'disponibles hoy']].map(([k, n, t]) => `<button class="vin-stat" data-a="vinRep" data-f="${k}" aria-label="Ver ${n} ${t}"><b class="num">${n}</b><span>${t}</span></button>`).join('')}</div></div>
+    ${r.vin ? vinSegs(r) : '<p class="small muted" style="margin:0">Este vehículo no tiene VIN registrado: buscamos por marca, modelo y año.</p>'}
+    ${!r.modelo ? '<div class="note warn"><b>No identificamos el modelo.</b> Solo mostramos repuestos universales. Registra el vehículo en la recepción con su modelo para ver más.</div>' : ''}
+  </section>` + vMapa(r);
 }
 
 /* ================== Expediente (HU-06.xx) ================== */
@@ -2337,6 +2802,7 @@ document.addEventListener('input', e => {
   setPath(p, el.value);
   if (el.dataset.live) {
     if (p === 'recep.q' || p.startsWith('recep.fl.')) { recRefrescarBusq(); return; }
+    if (p === 'vinQ') { const c = document.getElementById('vin-cnt'), n = norm(S.vinQ).length; if (c) { c.textContent = n + '/17'; c.classList.toggle('ok', n === 17); } return; }
     if (p === 'histQ') { const c = document.getElementById('hv-res'); if (c) c.innerHTML = histResHTML(); return; }
     if (p === 'repQ') document.getElementById('rep-tbl').innerHTML = tablaInventario(deEmpresa(DB.productos).filter(x => !S.repQ || norm(x.nombre + x.cod).includes(norm(S.repQ))));
     if (p === 'bitQ') { const q = norm(S.bitQ); document.getElementById('bit-tbl').innerHTML = tablaBit(deEmpresa(DB.bitacora).filter(b => !q || norm(b.ent + b.acc + b.u).includes(q))); }
@@ -2657,6 +3123,14 @@ const A = {
   },
   // Administración
   repTab: d => { S.repTab = d.t; render(); },
+  vinBuscar: () => { S.vinRes = leerVin(S.vinQ); S.pz = null; S.pzSis = 'todos'; render(); },
+  vinEj: d => { S.vinQ = d.v; A.vinBuscar(); },
+  pz: d => { S.pz = d.k && S.pz !== d.k ? d.k : null; render(); },
+  pzSis: d => { S.pzSis = d.s; if (S.pz && d.s !== 'todos' && pzDe(S.pz).sis !== d.s) S.pz = null; render(); },
+  vinRep: d => { S.modal = { t:'vinRep', f:d.f }; render(); const doc = document.querySelector('.doc'); if (doc) doc.scrollTop = 0; },
+  vinVerPieza: d => { S.modal = null; S.pz = d.k; S.pzSis = 'todos'; render(); const st = document.querySelector('.pz-stage'); if (st) st.scrollIntoView({ behavior:'smooth', block:'start' }); },
+  usarAlt: d => { S.f.prod = d.id; render(); },
+  verPieza: d => { S.repTab = 'mapa'; S.pz = d.k; S.pzSis = 'todos'; render(); subir(); },
   adminTab: d => { S.adminTab = d.t; S.f = {}; S.confirm = null; S.exportado = null; render(); },
   userToggle: d => { const u = byId(DB.usuarios, d.id); u.activo = !u.activo; log('Usuario ' + u.nombre, u.activo ? 'Usuario activado' : 'Usuario desactivado', '', ''); toast(u.activo ? `${u.nombre} puede volver a ingresar.` : `${u.nombre} desactivado: sus sesiones se cerraron.`); render(); },
   userAdd: () => {
@@ -2721,8 +3195,17 @@ document.addEventListener('click', e => {
   if (b.tagName === 'A' && ['abrir','filtro','cancelRecep','mantTab'].includes(b.dataset.a)) e.preventDefault();
   fn(b.dataset, b, e);
 });
+let pzHover = null;
+document.addEventListener('mouseover', e => {
+  const el = e.target.closest && e.target.closest('[data-pzh]'), k = el ? el.dataset.pzh : null;
+  if (k === pzHover) return; pzHover = k;
+  document.querySelectorAll('.pzh').forEach(x => x.classList.remove('pzh'));
+  if (k) document.querySelectorAll('[data-pzh="' + k + '"]').forEach(x => x.classList.add('pzh'));
+});
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.id === 'r-q') { e.preventDefault(); A.recBuscar(); return; }
+  if (e.key === 'Enter' && e.target.id === 'vin-q') { e.preventDefault(); A.vinBuscar(); return; }
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('pz-item')) { e.preventDefault(); e.target.click(); return; }
   if (e.key === 'Escape' && S.recep && S.recep.scan) { S.recep.scan = null; render(); return; } if (e.key === 'Escape' && (S.modal || S.menu)) { S.modal = null; S.menu = false; render(); } });
 window.addEventListener('hashchange', () => {
   const v = location.hash.slice(1);
